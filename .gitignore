@@ -1,4 +1,7 @@
 .*
 !/.gitignore
+!/.git
 !.gitkeep
+bin/
+project/
 target/
