@@ -1,0 +1,14 @@
+2016-11-07 13:40:52,559 ERROR [main] - System.err - [org.eclipse.jdt.launching] error can't determine modifiers of missing type org.eclipse.pde.internal.ui.wizards.imports.PluginImportHelper
+when weaving type org.eclipse.jdt.launching.JavaRuntime
+when weaving classes 
+when weaving 
+ [Xlint:cantFindType]
+2016-11-07 13:44:32,266  WARN [ModalContext] - ScalaProject - Project WeblogChallenge has platform default sourceLevel.
+2016-11-07 13:44:32,279  WARN [ModalContext] - ScalaProject - Project WeblogChallenge runs on platform default installation.
+2016-11-07 13:44:33,183  WARN [Worker-2] - ScalaProject - Project WeblogChallenge has platform default sourceLevel.
+2016-11-07 13:44:33,184  WARN [Worker-2] - ScalaProject - Project WeblogChallenge runs on platform default installation.
+2016-11-07 13:45:00,819 ERROR [main] - System.err - [org.eclipse.jdt.debug] error can't determine modifiers of missing type org.eclipse.pde.internal.ui.wizards.imports.PluginImportHelper
+when weaving type org.eclipse.jdt.debug.core.IJavaLineBreakpoint
+when weaving classes 
+when weaving 
+ [Xlint:cantFindType]
