@@ -130,6 +130,8 @@ object Sessionize {
       results.iterator
     })
     
+    sessionizedRDD.persist()
+    
     // Output sessionized log data as parquet files
     val sessionizedDF = sparkSQL.createDataFrame(sessionizedRDD, parsedDF.schema)
     sessionizedDF.write.mode(SaveMode.Overwrite).parquet(outputDir)
@@ -143,6 +145,8 @@ object Sessionize {
       .map { case Row(client_ip: String, access_epoch: Long, access_url: String, session_id: Long) => ((client_ip, session_id), (access_epoch, access_epoch)) }
       .reduceByKey((ae1, ae2) => (Math.max(ae1._1, ae2._1), Math.min(ae1._2, ae2._2)))
       .map({ case (key, value) => (key, value._1 - value._2 )})
+    
+    sessiontime.persist()
     
     /*
      * Example 1: Determine the average session time
