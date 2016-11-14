@@ -40,13 +40,13 @@ object Analyze {
     return engaged_user
   }
   
-  def UniqueURLVisit(sessionizedRDD: RDD[Row]) : RDD[((String, Long), Int)] = {
+  def UniqueURLVisit(sessionizedRDD: RDD[Row]) : RDD[((String, Long), Long)] = {
     // Unique URL visits per session
     val uniqueurl_sample = sessionizedRDD
-      .map { case Row(client_ip: String, access_epoch: Long, access_url: String, session_id: Long) => ((client_ip, session_id), (access_url, 1)) }
+      .map { case Row(client_ip: String, access_epoch: Long, access_url: String, session_id: Long) => ((client_ip, session_id), (access_url, 1L)) }
       .reduceByKey((au1, au2) => (null, if (au1._1 == au2._1) au1._2 else au1._2 + au2._2 ))
       .map({ case (key, value) => (key, value._2) })
-
+    
     return uniqueurl_sample
   }
 }

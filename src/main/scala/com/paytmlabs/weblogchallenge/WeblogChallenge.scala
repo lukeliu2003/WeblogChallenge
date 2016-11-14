@@ -8,6 +8,8 @@ import org.apache.spark.sql._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 import scala.reflect.runtime.universe
+import org.apache.spark.serializer.KryoSerializer
+import org.apache.spark.storage.StorageLevel._
 
 
 object WeblogChallenge {
@@ -33,6 +35,8 @@ object WeblogChallenge {
     
     val conf = new SparkConf()
       .setAppName(this.getClass.getCanonicalName)
+      .set("spark.serializer", classOf[KryoSerializer].getName)
+      .registerKryoClasses(Array(classOf[Tuple2[Tuple2[_,_],_]]))
     
     val spark = new SparkContext(conf)
     val sparkSQL = new SQLContext(spark)
@@ -49,7 +53,7 @@ object WeblogChallenge {
     // Sessionize
     val sessionizedDF = Transform.Sessionization(sparkSQL, inputDF, sessionInterval)
     // Cache
-    sessionizedDF.persist()    
+    sessionizedDF.persist(MEMORY_ONLY_SER)    
     // Output sessionized log data as parquet files
     sessionizedDF.write.mode(SaveMode.Overwrite).parquet(outputDir)
     
@@ -61,7 +65,7 @@ object WeblogChallenge {
     // Session time in seconds
     val sessiontime = Analyze.SessionTime(sessionizedRDD)
     // Cache
-    sessiontime.persist()
+    sessiontime.persist(MEMORY_ONLY_SER)
     
     /*
      * Example 1: Determine the average session time
